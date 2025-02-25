@@ -1,0 +1,14 @@
+fastapi 
+uvicorn
+psycopg2-binary
+asyncpg
+sqlalchemy
+alembic
+pydantic
+pydantic-settings
+requests
+fastapi-sessions
+passlib
+pydantic[email]
+python-jose
+aio_pika

@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16.4
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"  
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+  app:
+    build: 
+      context: ./app
+    container_name: app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - rabbitmq
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app
+
+  tgbot:
+    build: ./tgbot
+    container_name: tgbot
+    env_file:
+      - .env
+volumes:
+  postgres_data:
